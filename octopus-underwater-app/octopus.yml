@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: underwater-deployment
+ labels:
+  app: underwater-app
+spec:
+ replicas: 2
+ selector:
+  matchLabels:
+   app: underwater-app
+ template:
+   metadata:
+    labels:
+     app: underwater-app
+   spec:
+    containers:
+     - name: underwater
+       image: venkateshbabu042/underwater:latest
+       ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+ name: underwater-app-service
+spec:
+ selector:
+  app: underwater-app
+ type: LoadBalancer
+ ports:
+  - protocol: TCP
+    port: 5000
+    targetPort: 80
+    nodePort: 30001

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: emptydir
+spec:
+  containers:
+  - image: ubuntu
+    command: ["/bin/bash", "-c", "while true; do echo This is Day13 of 30DaysOfKubernetes;sleep 5 ; done"]
+    name: container1 
+    
+    volumeMounts:
+    - mountPath: "/tmp/container1"
+      name: day13
+      
+  - image: centos
+    command: ["/bin/bash", "-c", "while true; do echo Chak de INDIA!; sleep 5 ; done"]
+    name: container2
+    
+    volumeMounts:
+    - mountPath: "/tmp/container2"
+      name: day13    
+      
+  volumes:
+  - name: day13
+    emptyDir: {}           

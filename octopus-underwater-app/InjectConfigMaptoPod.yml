@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+ name: pod-injecting-configmap
+spec:
+ containers:
+  - image: venkateshbabu042/underwater:latest
+    name: firstcontainer
+    imagePullPolicy: Never
+    envFrom:
+     - configMapRef:
+         name: game-config

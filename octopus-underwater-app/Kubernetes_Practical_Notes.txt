@@ -1,0 +1,82 @@
+https://octopus.com/blog/set-up-local-k8s-deployment-pipeline
+
+docker image build -t venkateshbabu042/underwater .
+docker image push venkateshbabu042/underwater:latest
+docker run -p 5000:80 venkateshbabu042/underwater
+
+Pushing the docker image straight away to local minikube:
+
+minikube image load venkateshbabu042/underwater
+
+you can label pods if you are not lablled it or want to add more lables:
+
+kubectl label pods "pod name" zone=India
+
+
+execute inside container pod
+
+kubectl exec "podname" -it -c "container name" -- /bin/bash
+
+===> inside container type " curl localhost:80"
+
+ go inside the container and type following commands to check internal pods can be reachable via ping or not:
+
+ ==>kubectl exec "podname" -it -c "container name" -- /bin/bash 
+ 
+ Volumes and LivenessProbe:
+ ***************************
+ 
+ EmptyDir:when created we can see the data from container1 to container2
+ hostpath:
+ PV: persistant volumes
+ PVC:persistant volume claims
+ 
+Kubernetes Config Maps and Secrets:
+***********************************
+==> kubectl get cm ==> to get config maps
+
+create config map file by the following command:
+
+kubectl create cm "configmap-name" --from-file="location of config map"
+
+above we have created config maps for single files , but what if we have to create tons of config maps to tons of application files:
+
+see below how to create it:
+
+we can create it by creating multiple config map files by creating them entirely in a folder:
+
+
+kubectl create cm cm.directory --from-file=configmaps-folder
+
+kubectl create cm cm.directory --from-file=configmaps-folder --dry-run -o yml ==> create ConfigMap using yaml file
+
+kubectl create cm game-config --from-file=configmaps-folder --dry-run -o yml
+
+Injecting CM into the pod with specific key pairs:
+***************************************************
+
+refer Injecting key into pod yaml file reference
+
+>kubectl exec -it pod-injecting-configmap -c firstcontainer -- env
+
+Secrets:
+********
+
+creating secrets using literal command:
+>kubectl create secret generic first-secret --from-literal=username-venky9918
+
+Secrets from file:
+******************
+kubectl create secret generic app-secrets --from-file="D:\\octopus-underwater-app\\secrets\\secretfile.env"
+
+
+kubectl get secret first-secret -o yaml  ==> get secret using yaml file
+
+Injecting Secrets and creating a file in the pod with the selected key pairs:
+*****************************************************************************
+
+ 
+
+
+ 
+ 
